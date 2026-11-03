@@ -1,0 +1,9 @@
+{
+  "name": "screen-share",
+  "version": "0.3.0",
+  "description": "/screen-share desenha emails, números de telefone, valores e nomes como barras sombreadas no ecrã para gravares, enquanto o Claude continua a ler os dados reais",
+  "author": {
+    "name": "Bruno Luz"
+  },
+  "types": "./types/index.d.ts"
+}

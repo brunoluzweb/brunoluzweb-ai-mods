@@ -1,0 +1,9 @@
+{
+  "name": "handoff",
+  "version": "0.2.0",
+  "description": "Aos 250 mil tokens oferece Refresh: escreve um handoff do chat inteiro, mostra os passos com barras de progresso e depois copia-o ou abre um chat novo com ele. Guarda um rascunho antes e regista cada passagem em ~/.claude/handoffs/handoff.log",
+  "author": {
+    "name": "Bruno Luz"
+  },
+  "types": "./types/index.d.ts"
+}

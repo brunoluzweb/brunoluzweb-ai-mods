@@ -1,0 +1,69 @@
+{
+  "name": "brunoluzweb-ai-mods",
+  "owner": {
+    "name": "Bruno Luz"
+  },
+  "description": "Dez mods do Claude Code para o trabalho do dia a dia: moldar prompts, uma barra de tarefas, um relógio da cache, handoffs, regras guardadas, painéis laterais, esconder dados ao partilhar o ecrã, rever edições, uma caixa de saída que segura o que sai do chat e um painel /mods",
+  "plugins": [
+    {
+      "name": "brain-dump",
+      "source": "./plugins/brain-dump",
+      "description": "Oferece-se para transformar um prompt longo e solto num brief em quatro partes (a tarefa, o porquê, os limites, o que conta como feito), com até três perguntas primeiro sobre lacunas reais",
+      "version": "0.3.0"
+    },
+    {
+      "name": "cache-clock",
+      "source": "./plugins/cache-clock",
+      "description": "Conta, acima do prompt, o tempo até a cache do chat arrefecer. Quando um chat grande arrefece, oferece passá-lo para um chat novo. O Keep warm faz pings em segundo plano para a cache não arrefecer",
+      "version": "0.4.0"
+    },
+    {
+      "name": "chat-inventory",
+      "source": "./plugins/chat-inventory",
+      "description": "Um painel lateral, Neste chat, com a lista de tarefas, os conectores, os ficheiros de contexto e as skills que este chat usou",
+      "version": "0.3.0"
+    },
+    {
+      "name": "handoff",
+      "source": "./plugins/handoff",
+      "description": "Aos 250 mil tokens oferece Refresh: escreve um handoff do chat inteiro, mostra os passos com barras de progresso e depois copia-o ou abre um chat novo com ele. Guarda um rascunho antes e regista cada passagem em ~/.claude/handoffs/handoff.log",
+      "version": "0.2.0"
+    },
+    {
+      "name": "helper-desk",
+      "source": "./plugins/helper-desk",
+      "description": "Helper Desk: uma barra de tarefas lima, a cor da UTU, acima do prompt, que avança à medida que cada tarefa fica feita, e um painel lateral com um cartão ao vivo por subagente",
+      "version": "0.5.1"
+    },
+    {
+      "name": "mods",
+      "source": "./plugins/mods",
+      "description": "Um painel Mods que encontra sozinho todos os mods deste Mac, incluindo os instalados de um marketplace, liga ou desliga cada um em todos os chats e abre os de painel lateral",
+      "version": "0.4.0"
+    },
+    {
+      "name": "outbox",
+      "source": "./plugins/outbox",
+      "description": "Segura acima do prompt, durante uns segundos e com Cancelar e Enviar já, cada email, convite, edição no Notion, mensagem, git push e PR do GitHub, e lista o que saiu do chat num painel lateral, Enviado deste chat",
+      "version": "0.2.0"
+    },
+    {
+      "name": "reflect",
+      "source": "./plugins/reflect",
+      "description": "Quando corriges o Claude, oferece-se para guardar a correção como regra permanente no CLAUDE.md ou numa pasta de regras à tua escolha",
+      "version": "0.2.0"
+    },
+    {
+      "name": "replay-theater",
+      "source": "./plugins/replay-theater",
+      "description": "Replay Theater: percorre as edições de ficheiros que o Claude fez no último turno, um diff de cada vez.",
+      "version": "0.2.0"
+    },
+    {
+      "name": "screen-share",
+      "source": "./plugins/screen-share",
+      "description": "/screen-share desenha emails, números de telefone, valores e nomes como barras sombreadas no ecrã para gravares, enquanto o Claude continua a ler os dados reais",
+      "version": "0.3.0"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+.DS_Store
+*.log
+node_modules/
+# The engine writes its type files here at each load; they are not part of a mod.
+.claude-plugin/types/
+plugins/*/.claude-plugin/types/
+# Runtime state a mod may write next to itself on older versions.
+plugins/*/.claude/

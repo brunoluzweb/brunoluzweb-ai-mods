@@ -1,0 +1,9 @@
+{
+  "name": "brain-dump",
+  "version": "0.3.0",
+  "description": "Oferece-se para transformar um prompt longo e solto num brief em quatro partes (a tarefa, o porquê, os limites, o que conta como feito), com até três perguntas primeiro sobre lacunas reais",
+  "author": {
+    "name": "Bruno Luz"
+  },
+  "types": "./types/index.d.ts"
+}

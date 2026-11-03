@@ -1,0 +1,17 @@
+{
+  "name": "reflect",
+  "version": "0.2.0",
+  "description": "Quando corriges o Claude, oferece-se para guardar a correção como regra permanente no CLAUDE.md ou numa pasta de regras à tua escolha",
+  "author": {
+    "name": "Bruno Luz"
+  },
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "rules_folder": {
+      "type": "string",
+      "title": "Pasta de regras",
+      "description": "A pasta onde Guardar no vault escreve as notas de regras, por exemplo ~/Documents/rules. Deixa vazia para o reflect perguntar uma vez e guardar a resposta.",
+      "default": ""
+    }
+  }
+}

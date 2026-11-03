@@ -1,0 +1,33 @@
+{
+  "name": "outbox",
+  "version": "0.2.0",
+  "description": "Segura acima do prompt, durante uns segundos e com Cancelar e Enviar já, cada email, convite, edição no Notion, mensagem, git push e PR do GitHub, e lista o que saiu do chat num painel lateral, Enviado deste chat",
+  "author": {
+    "name": "Bruno Luz"
+  },
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "mode": {
+      "type": "string",
+      "title": "Como segurar",
+      "description": "countdown: uma barra acima do prompt faz a contagem decrescente, com Cancelar e Enviar já. ask: uma pergunta antes de cada envio, Enviar ou Cancelar. log: não segura nada, só regista tudo no painel.",
+      "options": [
+        "countdown",
+        "ask",
+        "log"
+      ],
+      "default": "countdown"
+    },
+    "seconds": {
+      "type": "string",
+      "title": "Segundos da contagem",
+      "description": "Quanto tempo a contagem segura cada envio antes de sair.",
+      "options": [
+        "3",
+        "5",
+        "8"
+      ],
+      "default": "5"
+    }
+  }
+}

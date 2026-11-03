@@ -1,0 +1,9 @@
+{
+  "name": "helper-desk",
+  "version": "0.5.1",
+  "description": "Helper Desk: uma barra de tarefas lima, a cor da UTU, acima do prompt, que avança à medida que cada tarefa fica feita, e um painel lateral com um cartão ao vivo por subagente",
+  "author": {
+    "name": "Bruno Luz"
+  },
+  "types": "./types/index.d.ts"
+}

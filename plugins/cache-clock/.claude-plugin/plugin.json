@@ -1,0 +1,9 @@
+{
+  "name": "cache-clock",
+  "version": "0.4.0",
+  "description": "Conta, acima do prompt, o tempo até a cache do chat arrefecer. Quando um chat grande arrefece, oferece passá-lo para um chat novo. O Keep warm faz pings em segundo plano para a cache não arrefecer",
+  "author": {
+    "name": "Bruno Luz"
+  },
+  "types": "./types/index.d.ts"
+}

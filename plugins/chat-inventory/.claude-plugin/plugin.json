@@ -1,0 +1,9 @@
+{
+  "name": "chat-inventory",
+  "version": "0.3.0",
+  "description": "Um painel lateral, Neste chat, com a lista de tarefas, os conectores, os ficheiros de contexto e as skills que este chat usou",
+  "author": {
+    "name": "Bruno Luz"
+  },
+  "types": "./types/index.d.ts"
+}

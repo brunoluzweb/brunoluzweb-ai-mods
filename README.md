@@ -118,3 +118,7 @@ Cada mod tem a sua pasta em `plugins/`, com o manifesto em `.claude-plugin/plugi
 O **replay-theater** é o mod de exemplo da Anthropic em [anthropics/claude-code-playground](https://github.com/anthropics/claude-code-playground/tree/main/claude-code/mods/replay-theater), partilhado sob a licença Apache 2.0 (ver [`plugins/replay-theater/LICENSE`](plugins/replay-theater/LICENSE)). As alterações locais são o interruptor do `/mods`, a leitura da pasta pessoal a partir de `$HOME` e o texto em português.
 
 As cores da barra do helper-desk e do outbox vêm da paleta da [UTU](https://brand.utu.wtf).
+
+## Licença
+
+[MIT](LICENSE), exceto o replay-theater, que mantém a licença Apache 2.0 da Anthropic.

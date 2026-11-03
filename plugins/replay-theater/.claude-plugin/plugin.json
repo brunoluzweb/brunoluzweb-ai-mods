@@ -4,5 +4,6 @@
   "description": "Replay Theater: percorre as edições de ficheiros que o Claude fez no último turno, um diff de cada vez.",
   "author": {
     "name": "Claude Code DevRel"
-  }
+  },
+  "license": "Apache-2.0"
 }

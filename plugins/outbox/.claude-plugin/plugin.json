@@ -5,6 +5,7 @@
   "author": {
     "name": "Bruno Luz"
   },
+  "license": "MIT",
   "types": "./types/index.d.ts",
   "userConfig": {
     "mode": {

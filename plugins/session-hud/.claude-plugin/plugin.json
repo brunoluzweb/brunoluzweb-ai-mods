@@ -1,0 +1,10 @@
+{
+  "name": "session-hud",
+  "version": "0.1.0",
+  "description": "Um cartão acima do prompt com o contexto usado, os limites de uso e quando repõem, o custo e a duração do chat, com Compactar e Passar para um chat novo",
+  "author": {
+    "name": "Bruno Luz"
+  },
+  "license": "MIT",
+  "types": "./types/index.d.ts"
+}

@@ -260,8 +260,8 @@ for (const surface of ['desktop', 'terminal'] as const) {
 
     // Order: the old table, then new ones A to Z, then this chat's own.
     const order = (await v.findAll({ type: 'Box' })).map(b => b.key ?? '').filter(k => k.startsWith('row-')).map(k => k.slice(4))
-    expect(order.slice(0, 8), 'old table first').toEqual(['cache-clock', 'handoff', 'screen-share', 'brain-dump', 'reflect', 'helper-desk', 'chat-inventory', 'outbox'])
-    expect(order.slice(8), 'then A to Z, then this chat only').toEqual(['alpha-env', 'plain-tool', 'replay-theater', 'zeta-notes', 'brand-new'])
+    expect(order.slice(0, 9), 'old table first').toEqual(['cache-clock', 'session-hud', 'handoff', 'screen-share', 'brain-dump', 'reflect', 'helper-desk', 'chat-inventory', 'outbox'])
+    expect(order.slice(9), 'then A to Z, then this chat only').toEqual(['alpha-env', 'plain-tool', 'replay-theater', 'zeta-notes', 'brand-new'])
 
     // A found mod switches like a known one.
     await v.press({ key: 'toggle-zeta-notes' })

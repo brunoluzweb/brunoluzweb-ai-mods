@@ -162,7 +162,7 @@ for (const surface of ['desktop', 'terminal'] as const) {
     const props = { isWorking: false, hasSurvey: false } as never
     const v = await $.ui.mount({ plugin: 'handoff', surface, component: 'AbovePrompt', props })
     const log = Object.entries(files).find(([k]) => k.endsWith('/handoff.log'))?.[1] ?? ''
-    expect(log, 'the request is logged').toContain('asked by Cache Clock')
+    expect(log, 'the request is logged').toContain('asked by another mod')
     expect(log, 'the failure is logged').toContain('failed at step 4')
     expect(requested, 'the request file is removed').toBe(false)
     expect(await v.find({ key: 'retry' }), 'failed: try again').toBeDefined()

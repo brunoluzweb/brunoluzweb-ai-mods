@@ -1,6 +1,6 @@
 {
   "name": "mods",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Um painel Mods que encontra sozinho todos os mods deste Mac, incluindo os instalados de um marketplace, liga ou desliga cada um em todos os chats e abre os de painel lateral",
   "author": {
     "name": "Bruno Luz"

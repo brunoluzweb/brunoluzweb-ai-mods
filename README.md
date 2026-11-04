@@ -1,6 +1,6 @@
 # brunoluzweb-ai-mods
 
-Dez mods para o [Claude Code](https://claude.com/claude-code) pensados para o trabalho do dia a dia: escrever prompts melhores, ver o progresso das tarefas, não pagar a cache duas vezes, passar um chat longo para um novo, guardar correções como regras e travar o que o Claude ia enviar para fora.
+Onze mods para o [Claude Code](https://claude.com/claude-code) pensados para o trabalho do dia a dia: escrever prompts melhores, ver o progresso das tarefas, não pagar a cache duas vezes, passar um chat longo para um novo, guardar correções como regras e travar o que o Claude ia enviar para fora.
 
 Um mod é um plugin que muda o que o Claude Code mostra ou faz: uma barra acima do prompt, um painel lateral, um comando novo. Instalas só os que quiseres e ligas ou desligas cada um no painel `/mods`.
 
@@ -15,6 +15,7 @@ Um mod é um plugin que muda o que o Claude Code mostra ou faz: uma barra acima 
 | **outbox** | Antes de o Claude enviar um email, mexer no calendário ou no Notion, mandar uma mensagem, fazer `git push` ou abrir um PR, segura a ação 5 segundos acima do prompt, com **Ver**, **Cancelar** e **Enviar já**. Se cancelares, nada sai e o Claude fica a saber que não deve tentar outra vez. | `/outbox` abre o painel *Enviado deste chat* |
 | **helper-desk** | Uma barra de tarefas acima do prompt que avança à medida que o Claude risca a sua lista, e um painel lateral com um cartão ao vivo por subagente. | `/helpers` |
 | **brain-dump** | Quando escreves (ou ditas) um prompt longo e solto, oferece-se para o transformar num brief em quatro partes: a tarefa, o porquê, os limites e o que conta como feito. Antes, faz até 3 perguntas sobre lacunas reais. | `/shape` liga ou desliga |
+| **session-hud** | Um cartão acima do prompt com o contexto usado, os limites de 5 horas e semanal e quando repõem, o custo em API e há quanto tempo o chat corre. **Compactar** corre `/compact` e **Chat novo** pede um handoff ao mod handoff. | `/hud` mostra ou esconde |
 | **cache-clock** | Faz a contagem decrescente até a cache do chat arrefecer e diz quanto custa responder agora. O *Keep warm* mantém a cache quente com um pequeno ping em segundo plano. | `/cacheclock`, `/keepwarm` |
 | **handoff** | Aos 250 mil tokens oferece *Refresh*: escreve um handoff do chat inteiro (o que foi pedido, feito e decidido, os ficheiros a abrir, os próximos passos) e copia-o ou abre um chat novo com ele. | `/refresh`, `/handoff` |
 | **reflect** | Quando corriges o Claude, oferece-se para guardar a correção como regra permanente no `~/.claude/CLAUDE.md` ou numa pasta de notas tua. | `/reflect` liga ou desliga |
@@ -45,7 +46,7 @@ claude plugin install outbox@brunoluzweb-ai-mods
 Ou todos de uma vez:
 
 ```bash
-for m in outbox helper-desk brain-dump cache-clock handoff reflect chat-inventory screen-share replay-theater mods; do claude plugin install "$m@brunoluzweb-ai-mods"; done
+for m in outbox helper-desk brain-dump cache-clock session-hud handoff reflect chat-inventory screen-share replay-theater mods; do claude plugin install "$m@brunoluzweb-ai-mods"; done
 ```
 
 Dentro de uma sessão do Claude Code no terminal, também podes usar `/plugin install outbox --marketplace brunoluzweb/brunoluzweb-ai-mods`.

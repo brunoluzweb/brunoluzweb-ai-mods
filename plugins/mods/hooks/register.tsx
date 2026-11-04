@@ -24,6 +24,7 @@ type Row = Mod & { switchable: boolean; chatOnly: boolean }
 
 const MODS: readonly Mod[] = [
   { name: 'cache-clock', title: 'Cache Clock', what: 'Conta o tempo até a cache arrefecer', pane: false, hide: true, ask: false, tip: '/cacheclock para mostrar ou esconder' },
+  { name: 'session-hud', title: 'Session HUD', what: 'Contexto, limites de uso, custo e duração do chat', pane: false, hide: true, ask: false, tip: '/hud para mostrar ou esconder' },
   { name: 'handoff', title: 'Handoff (Refresh)', what: 'Passa um chat longo para um novo', pane: false, hide: true, ask: true, tip: '/refresh para o mostrar' },
   { name: 'screen-share', title: 'Screen-Share Mode', what: 'Esconde emails, telefones e valores no ecrã', pane: false, hide: false, ask: false, tip: '/screen-share esconde dados privados' },
   { name: 'brain-dump', title: 'Brain-Dump Shaper', what: 'Transforma prompts longos e soltos em briefs claros', pane: false, hide: false, ask: false, tip: '' },

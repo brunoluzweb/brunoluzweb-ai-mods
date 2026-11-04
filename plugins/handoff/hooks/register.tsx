@@ -496,11 +496,11 @@ async function startNew($: EngineInterface) {
 
 async function checkOffer($: EngineInterface) {
   if (busy || off) return
-  // Cache Clock (another mod) asks for a handoff by leaving this file.
+  // Cache Clock or Session HUD (other mods) ask for a handoff by leaving this file.
   const request = `${home}/.claude/handoffs/.request-${sid}`
   if (sid && (await $.fs.exists(request).catch(() => false))) {
     await $.process.run(['rm', '-f', request])
-    await log($, 'asked by Cache Clock')
+    await log($, 'asked by another mod')
     void run($).catch(() => undefined)
     return
   }

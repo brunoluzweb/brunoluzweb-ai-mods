@@ -48,10 +48,13 @@ for (const surface of ['desktop', 'terminal'] as const) {
   test(`draws the card on the ${surface}`, async ($, on) => {
     await setup($, on, surface)
     const v = await $.ui.mount({ plugin: 'session-hud', surface, component: 'AbovePrompt', props })
-    expect(await v.find({ text: /383k de 1M tokens/ }), 'context tokens').toBeDefined()
-    expect(await v.find({ text: /Limite de 5 horas/ }), '5-hour limit').toBeDefined()
-    expect(await v.find({ text: /repõe dentro de 4 h \d+ min/ }), 'reset countdown').toBeDefined()
-    expect(await v.find({ text: /Limite semanal/ }), 'weekly limit').toBeDefined()
+    // The desktop draws the readings in one Svg; the terminal writes them as text.
+    const tree = surface === 'desktop' ? JSON.stringify(await v.drawn()) : ''
+    const shows = async (re: RegExp) => (tree ? re.test(tree) : (await v.find({ text: re })) !== undefined)
+    expect(await shows(/383k de 1M tokens/), 'context tokens').toBe(true)
+    expect(await shows(/LIMITE DE 5 HORAS|Limite de 5 horas/), '5-hour limit').toBe(true)
+    expect(await shows(/repõe dentro de 4 h \d+ min/), 'reset countdown').toBe(true)
+    expect(await shows(/LIMITE SEMANAL|Limite semanal/), 'weekly limit').toBe(true)
     expect(await v.find({ text: /API ≈ 16,78 US\$/ }), 'cost').toBeDefined()
     expect(await v.find({ key: 'compact' }), 'Compactar').toBeDefined()
     expect(await v.find({ key: 'handoff' }), 'Chat novo').toBeDefined()

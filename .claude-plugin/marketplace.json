@@ -69,7 +69,7 @@
       "name": "session-hud",
       "source": "./plugins/session-hud",
       "description": "Um cartão acima do prompt com o contexto usado, os limites de uso e quando repõem, o custo e a duração do chat, com Compactar e Passar para um chat novo",
-      "version": "0.1.0"
+      "version": "0.2.0"
     }
   ]
 }

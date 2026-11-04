@@ -59,7 +59,7 @@ Rules:
 - Never ask about something the dump already answers, and never ask about style or nice-to-haves.
 - For a conflict, name both sides in the question and offer each side as an option.
 - Each question has 2 or 3 short options (1 to 5 words), taken from the dump where possible. No "Other" option; the person can type their own.
-- Plain, short English. Never use em dashes or en dashes. Never use the word "ship"; say publish or deliver instead.`
+- Write every question and option in European Portuguese (pt-PT), plain and short. Never use em dashes or en dashes.`
 
 export type Gap = { q: string; options: string[] }
 export type QA = { q: string; a: string | null }

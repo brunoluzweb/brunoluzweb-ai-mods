@@ -1395,7 +1395,7 @@ export const register: Register = on => {
     if (e.surface !== 'terminal' && 'Svg' in els) {
       const { Svg } = els
       // About 8 CSS pixels a column; the rest is the dismiss button and its gap.
-      const px = Math.max(180, Math.min(1600, (cols || 100) * 8 - 56))
+      const px = Math.max(180, Math.min(1600, (cols || 100) * 8 - 96))
       w = cols || BAR_FALLBACK
       row = (
         <Box key="plan-row" flexDirection="row" alignItems="center" gap={1}>
@@ -1441,9 +1441,13 @@ export const register: Register = on => {
       )
     }
     return (
-      <Box flexDirection="column">
+      <Box flexDirection="column" gap="sm">
         {rest as never}
-        <Box key="plan-band" flexDirection="column">
+        <Box
+          key="plan-band"
+          flexDirection="column"
+          {...(e.surface === 'terminal' ? {} : { borderStyle: 'round', borderColor: U_ARDOSIA, paddingX: 'md' as const, paddingY: 'sm' as const })}
+        >
           {row as never}
           {line ? (
             <Text key="plan-now" dimColor wrap="truncate-end">

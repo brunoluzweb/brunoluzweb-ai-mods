@@ -209,10 +209,11 @@ for (const surface of ['desktop', 'terminal'] as const) {
     await clock.settle()
 
     let v = await $.ui.mount({ plugin: 'cache-clock', surface, component: 'AbovePrompt', props })
-    expect(await v.find({ text: /Cada ping lê o chat da cache/ }), 'the tip line shows').toBeDefined()
+    if (surface === 'terminal') expect(await v.find({ text: /Cada ping lê o chat da cache/ }), 'the tip line shows').toBeDefined()
     expect(await v.find({ text: /\$/ }), 'no money amounts').toBeUndefined()
     await v.press({ key: 'keepwarm' })
     v = await $.ui.mount({ plugin: 'cache-clock', surface, component: 'AbovePrompt', props })
+    expect(await v.find({ text: /Cada ping lê o chat da cache/ }), 'the tip shows with keep warm on').toBeDefined()
     expect(await v.find({ text: /A manter quente · primeiro ping em 4:15/ }), 'on, first ping 45 s before the end').toBeDefined()
 
     // 4 min in: 60 s left, still too early.

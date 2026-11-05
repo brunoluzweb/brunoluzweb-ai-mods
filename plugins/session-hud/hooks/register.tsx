@@ -20,6 +20,9 @@ const BAD = '#EC3C20' // --utu-brasa
 const level = (percent: number) => (percent >= 90 ? BAD : percent >= FULL ? WARN : GOOD)
 const BAR = 10
 
+// The engine's empty answer is none of these, so it gets no gap.
+const DRAWS = new Set(['Box', 'Text', 'Button', 'Svg', 'Link', 'Markdown', 'Code', 'Input', 'Select', 'Client'])
+
 // The labels of the desktop app's effort picker, in Portuguese.
 const EFFORT: Record<string, string> = { low: 'baixo', medium: 'médio', high: 'alto', xhigh: 'extra', max: 'máximo' }
 const LIMITS: Record<string, string> = { five_hour: 'Limite de 5 horas', seven_day: 'Limite semanal', spend_limit: 'Limite de gasto' }
@@ -76,7 +79,7 @@ const resetText = (iso: string, now: number) => {
 
 const dollars = (usd: number) => `${usd.toFixed(2).replace('.', ',')} US$`
 
-// UTU design system (utu-design-system/public/tokens): the desktop card is drawn with these.
+// UTU design system tokens.
 const U_BREU = '#151413' // --utu-breu
 const U_ARDOSIA = '#3B3A37' // --utu-ardosia
 const U_CHUMBO = '#5C5C5C' // --utu-chumbo
@@ -90,7 +93,6 @@ const U_BRASA = '#EC3C20' // --utu-brasa
 const FONT = "Satoshi,-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-serif"
 
 const xml = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
-// A rough width of a run of text, enough to cut it before it runs into the next column.
 const fit = (t: string, size: number, max: number) => {
   const per = size * 0.56
   if (t.length * per <= max) return t
@@ -103,30 +105,28 @@ type Gauge = { label: string; percent?: number; value: string; detail: string }
 const GAUGE_H = 58
 const TRACK_H = 6
 
-/**
- * The readings of the desktop card in one drawing: a column per gauge, its label in
- * small caps and its value on top, a thin track, a line of detail. Light and dark follow
- * the app; the fill is lima while there is room, quartzo from 70 %, brasa from 90 %.
- */
 function gaugesSvg(gauges: Gauge[], W: number): string {
+  // Laid out in percent so it fills the slot; W (estimated px) only decides where text is cut.
   const GAP = 28
   const n = Math.max(1, gauges.length)
   const colW = (W - GAP * (n - 1)) / n
+  const gapPct = (GAP / W) * 100
+  const colPct = (100 - gapPct * (n - 1)) / n
+  const pc = (v: number) => `${+v.toFixed(3)}%`
   const cols = gauges.map((g, i) => {
-    const x = Math.round(i * (colW + GAP))
     const p = g.percent === undefined ? undefined : Math.max(0, Math.min(100, g.percent))
     const tone = p === undefined ? '' : p >= 90 ? 'bad' : p >= FULL ? 'warn' : 'ok'
-    const fillW = p === undefined ? 0 : p > 0 ? Math.max(TRACK_H, Math.round((colW * p) / 100)) : 0
+    const fill = p === undefined || p <= 0 ? '' : `<rect class="${tone}" y="25" width="${pc(Math.max(p, Math.min(100, (TRACK_H / colW) * 100)))}" height="${TRACK_H}" rx="${TRACK_H / 2}"/>`
     const valueW = g.value.length * 9 + 8
-    return `<g transform="translate(${x},0)">
+    return `<svg x="${pc(i * (colPct + gapPct))}" width="${pc(colPct)}" height="${GAUGE_H}" overflow="visible">
 <text class="lb" x="0" y="13" font-size="10.5" font-weight="600" letter-spacing="1.3">${xml(fit(g.label.toUpperCase(), 11.5, colW - valueW))}</text>
-<text class="vl" x="${Math.round(colW)}" y="15" text-anchor="end" font-size="16" font-weight="700" font-variant-numeric="tabular-nums">${xml(g.value)}</text>
-<rect class="tk" y="25" width="${Math.round(colW)}" height="${TRACK_H}" rx="${TRACK_H / 2}"/>
-${fillW > 0 ? `<rect class="${tone}" y="25" width="${fillW}" height="${TRACK_H}" rx="${TRACK_H / 2}"/>` : ''}
+<text class="vl" x="100%" y="15" text-anchor="end" font-size="16" font-weight="700" font-variant-numeric="tabular-nums">${xml(g.value)}</text>
+<rect class="tk" y="25" width="100%" height="${TRACK_H}" rx="${TRACK_H / 2}"/>
+${fill}
 <text class="dt" x="0" y="${GAUGE_H - 6}" font-size="12">${xml(fit(g.detail, 12, colW))}</text>
-</g>`
+</svg>`
   })
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${GAUGE_H}" viewBox="0 0 ${W} ${GAUGE_H}" font-family="${FONT}">
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="${GAUGE_H}" font-family="${FONT}">
 <style>
 .lb{fill:${U_CHUMBO}}.vl{fill:${U_BREU}}.dt{fill:${U_CHUMBO}}.tk{fill:${U_NEVOA}}
 .ok{fill:${U_BREU}}.warn{fill:${U_QUARTZO_600}}.bad{fill:${U_BRASA}}
@@ -376,6 +376,7 @@ export const register: Register = on => {
     if (!data) return next(e)
     // What other mods draw here stays, above the card.
     const rest = await next(e)
+    const hasRest = DRAWS.has(String((rest as { type?: unknown } | null)?.type ?? ''))
     const { model, effort } = await getTurn($)
     const action = await getAction($)
     const { Box, Text, Button } = $.ui.resolve(e)
@@ -396,8 +397,6 @@ export const register: Register = on => {
       )
     }
 
-    // One column: the label with its reading on the right, then the meter on a line of its
-    // own, then a line of detail. Columns share the width evenly.
     const tile = (key: string, label: string, reading: RenderChildren, detail: string, bar?: RenderChildren) => (
       <Box key={key} flexDirection="column" flexGrow={1} width={0} minWidth={18}>
         <Box flexDirection="row" justifyContent="space-between" gap={1}>
@@ -471,8 +470,8 @@ export const register: Register = on => {
     if (e.surface !== 'terminal' && 'Svg' in els) {
       const { Svg } = els
       const cols = typeof e.props.bodyColumns === 'number' && e.props.bodyColumns > 0 ? Math.floor(e.props.bodyColumns) : 100
-      // About 8 CSS pixels a column, less the card's own padding.
-      const px = Math.max(240, Math.min(1600, cols * 8 - 32))
+      // ~8 px per column, less border and padding.
+      const px = Math.max(240, Math.min(1600, cols * 8 - 64))
       const gauges: Gauge[] = [
         data.contextPercent === undefined
           ? { label: 'Contexto', value: '—', detail: `janela de ${short(data.contextWindow)}` }
@@ -494,10 +493,10 @@ export const register: Register = on => {
         .filter(Boolean)
         .join('  ·  ')
       return (
-        <Box flexDirection="column">
-          {rest}
-          <Box flexDirection="column" paddingX="sm" paddingY="sm" gap="md">
-            <Svg key="gauges" source={gaugesSvg(gauges, px)} alt={alt} width={px} height={GAUGE_H} />
+        <Box flexDirection="column" gap={hasRest ? 'sm' : 0}>
+          {hasRest ? rest : null}
+          <Box key="hud-card" flexDirection="column" borderStyle="round" borderColor={U_ARDOSIA} paddingX="md" paddingY="sm" gap="md">
+            <Svg key="gauges" source={gaugesSvg(gauges, px)} alt={alt} height={GAUGE_H} />
             <Box key="footer" flexDirection="row" alignItems="center" justifyContent="space-between" gap="md">
               <Text size="footnote" dimColor wrap="truncate-end">
                 {`Sessão  ${sessionLine}`}
@@ -513,7 +512,6 @@ export const register: Register = on => {
       )
     }
 
-    // The terminal: text columns, the buttons on a row of their own.
     const buttons = (
       <Box key="buttons" flexDirection="row" justifyContent="flex-end" alignItems="center" gap={2} marginTop={1}>
         {compactButton}

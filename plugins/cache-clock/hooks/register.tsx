@@ -28,8 +28,31 @@ const BACKGROUND = new Set(['task-notification', 'scheduled-trigger', 'peer', 'p
 
 const GOOD = '#16a34a'
 const WARN = '#ca8a04'
-const BAD = '#dc2626'
+const BAD = '#EC3C20' // --utu-brasa
 const COLD = '#2563eb'
+
+// UTU design system tokens.
+const U_BREU = '#151413' // --utu-breu
+const U_ARDOSIA = '#3B3A37' // --utu-ardosia
+const U_NEVOA = '#D4D4D1' // --utu-nevoa
+const U_LIMA = '#E4FA00' // --utu-lima
+const U_QUARTZO = '#F9CDCD' // --utu-quartzo
+const U_QUARTZO_600 = '#9C8080' // --utu-quartzo-600
+const U_BRASA = '#EC3C20' // --utu-brasa
+const TRACK_H = 6
+
+// The engine's empty answer is none of these, so it gets no gap.
+const DRAWS = new Set(['Box', 'Text', 'Button', 'Svg', 'Link', 'Markdown', 'Code', 'Input', 'Select', 'Client'])
+
+function barSvg(share: number, tone: 'ok' | 'warn' | 'bad'): string {
+  const pct = Math.max(1.5, Math.min(100, share * 100)).toFixed(2)
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="${TRACK_H}">
+<style>.tk{fill:${U_NEVOA}}.ok{fill:${U_BREU}}.warn{fill:${U_QUARTZO_600}}.bad{fill:${U_BRASA}}
+@media (prefers-color-scheme: dark){.tk{fill:${U_ARDOSIA}}.ok{fill:${U_LIMA}}.warn{fill:${U_QUARTZO}}}</style>
+<rect class="tk" width="100%" height="${TRACK_H}" rx="${TRACK_H / 2}"/>
+<rect class="${tone}" width="${pct}%" height="${TRACK_H}" rx="${TRACK_H / 2}"/>
+</svg>`
+}
 
 // Module variables reset on a reload; the clock itself lives in $.state.
 let sid = ''
@@ -431,6 +454,54 @@ export const register: Register = on => {
     const warmButton = w ? <Button key="keepwarm" label="Parar keep warm" onPress={noop} /> : <Button key="keepwarm" label="Keep warm" onPress={noop} />
     const warmRow = w ? <Text color={w.cold || w.error ? BAD : COLD}>{warmLine(w, left)}</Text> : null
     const tip = <Text dimColor>{TIP}</Text>
+
+    const els = $.ui.resolve(e)
+    if (e.surface !== 'terminal' && 'Svg' in els) {
+      const { Svg } = els
+      const warm = left > 0
+      const share = left / c.ttlMs
+      const tone = left <= 60_000 ? 'bad' : share < 0.5 ? 'warn' : 'ok'
+      const big = c.tokens >= BIG || c.ttlSource === 'demo'
+      const hasRest = DRAWS.has(String((rest as { type?: unknown } | null)?.type ?? ''))
+      return (
+        <Box flexDirection="column" gap={hasRest ? 'sm' : 0}>
+          {hasRest ? rest : null}
+          <Box key="clock-card" flexDirection="column" borderStyle="round" borderColor={U_ARDOSIA} paddingX="md" paddingY="sm" gap="xs">
+            <Box flexDirection="row" alignItems="center" justifyContent="space-between" gap="md">
+              <Box flexDirection="row" alignItems="center" gap="sm">
+                <Text size="footnote" weight="semibold" dimColor>
+                  {warm ? '◷  Cache quente' : '❄  Cache fria'}
+                </Text>
+                <Text size="body" weight="bold" tabular>
+                  {warm ? mmss(left) : ago(-left)}
+                </Text>
+              </Box>
+              <Box flexDirection="row" alignItems="center" gap="sm" flexShrink={0}>
+                {!warm && big ? <Button key="handoff" label="Chat novo" variant="primary" onPress={noop} /> : null}
+                {warmButton}
+                <Button key="hide" label="✕" plain dimColor role="dismiss" onPress={noop} />
+              </Box>
+            </Box>
+            {warm ? <Svg key="clock-bar" source={barSvg(share, tone)} alt={`Cache quente, ${mmss(left)} por usar`} height={TRACK_H} /> : null}
+            <Text size="footnote" dimColor wrap="truncate-end">
+              {warm
+                ? `${lengthLabel(c)}. Se responderes agora, ${cost} custam 5 a 10% do preço.`
+                : `A tua próxima mensagem volta a ler ${cost} a preço inteiro.${c.note ? ` ${c.note}` : ''}`}
+            </Text>
+            {w ? (
+              <Text size="footnote" weight={w.cold || w.error ? 'semibold' : 'regular'} wrap="truncate-end">
+                {warmLine(w, left)}
+              </Text>
+            ) : null}
+            {w ? (
+              <Text size="caption" dimColor wrap="truncate-end">
+                {TIP}
+              </Text>
+            ) : null}
+          </Box>
+        </Box>
+      )
+    }
 
     if (left > 0) {
       const share = left / c.ttlMs
